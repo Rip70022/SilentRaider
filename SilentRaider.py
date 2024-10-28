@@ -52,7 +52,7 @@ JOIN_TIMEOUT = 1.0
 DEFAULT_WORKERS = 10
 DEFAULT_SOCKETS = 500
 
-GOLDENEYE_BANNER = 'GoldenEye v2.1 by Jan Seidl <jseidl@wroot.org>'
+GOLDENEYE_BANNER = 'SilentRaider v1.0 by Shadow_Sadist'
 
 USER_AGENT_PARTS = {
     'os': {
