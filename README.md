@@ -24,4 +24,4 @@ SilentRaider is an HTTP DoS testing tool designed to assess a server's capacity 
 # Utilities
 ● util/getuas.py - Fetches user-agent lists from http://www.useragentstring.com/pages/useragentstring.php subpages (ex: ./getuas.py 
  "http://www.useragentstring.com/pages/useragentstring.php?name=All") ||REQUIRES BEAUTIFULSOUP4||
-● res/lists/useragents - Text lists (one per line) of User-Agent strings (from http://www.useragentstring.com)
+  ● res/lists/useragents - Text lists (one per line) of User-Agent strings (from http://www.useragentstring.com)
