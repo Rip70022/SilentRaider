@@ -527,7 +527,7 @@ def usage():
     print()
     print(GOLDENEYE_BANNER)
     print()
-    print(' USAGE: ./goldeneye.py <url> [OPTIONS]')
+    print(' USAGE: ./SilentRaider.py <url> [OPTIONS]')
     print()
     print(' OPTIONS:')
     print('\t Flag\t\t\tDescription\t\t\t\t\t\tDefault')
