@@ -1,5 +1,15 @@
 #!/usr/bin/env python3
 
+import os
+
+# ANSI Colors
+RED = '\033[91m'
+GREEN = '\033[92m'
+BLUE = '\033[94m'
+CYAN = '\033[96m'
+RESET = '\033[0m'
+BOLD = '\033[1m'
+
 r"""
 $Id: $
 
@@ -27,6 +37,29 @@ IF YOU ENGAGE IN ANY ILLEGAL ACTIVITY
 THE AUTHOR DOES NOT TAKE ANY RESPONSIBILITY FOR IT.
 BY USING THIS SOFTWARE.
 """
+
+# Banner with colors
+BANNER = f"""
+{GREEN}{BOLD}   ███████╗██╗██╗     ███████╗███╗   ██╗████████╗██████╗  █████╗ ██╗██████╗ ███████╗██████╗
+   ██╔════╝██║██║     ██╔════╝████╗  ██║╚══██╔══╝██╔══██╗██╔══██╗██║██╔══██╗██╔════╝██╔══██╗
+   ███████╗██║██║     █████╗  ██╔██╗ ██║   ██║   ██████╔╝███████║██║██║  ██║█████╗  ██████╔╝
+   ╚════██║██║██║     ██╔══╝  ██║╚██╗██║   ██║   ██╔══██╗██╔══██║██║██║  ██║██╔══╝  ██╔══██╗
+   ███████║██║███████╗███████╗██║ ╚████║   ██║   ██║  ██║██║  ██║██║██████╔╝███████╗██║  ██║
+   ╚══════╝╚═╝╚══════╝╚══════╝╚═╝  ╚═══╝   ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝╚═════╝ ╚══════╝╚═╝  ╚═╝{RESET}
+
+              {CYAN}Tool: SilentRaider v1.0 by Shadow_Sadist{RESET}
+"""
+
+def show_banner():
+    # Display banner as a title at script start
+    os.system("clear")  # Clears the terminal before showing the banner
+    print(BANNER)
+
+def main():
+    show_banner()
+    print(f"{BLUE}Starting attack in '{GREEN}SilentRaider{BLUE}' mode{RESET}")
+    # Rest of the code goes here to start connections or attacks...
+
 
 from multiprocessing import Process, Manager, Pool
 import urllib.parse, ssl
