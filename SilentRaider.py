@@ -68,23 +68,20 @@ BANNER = f"""
 """
 
 def signal_handler(sig, frame):
-    print("\nExiting SilentRaider...")
+    print(f"{RED}\nExiting SilentRaider...{RESET}")
     sys.exit(0)
 
 
 signal.signal(signal.SIGINT, signal_handler)
 
 def main():
-    show_banner()
     # Display banner as a title at script start
     os.system("clear")  # Clears the terminal before showing the banner
     print(BANNER)
 print(f'{BLUE}SilentRaider v1.0 by Shadow_Sadist{RESET}')
 
 def main():
-    show_banner()
     print(f"{BLUE}Starting attack in '{GREEN}SilentRaider{BLUE}' mode{RESET}")
-print(f'{BLUE}SilentRaider v1.0 by Shadow_Sadist{RESET}')
     # Rest of the code goes here to start connections or attacks...
 
 
@@ -112,7 +109,7 @@ JOIN_TIMEOUT = 1.0
 DEFAULT_WORKERS = 10
 DEFAULT_SOCKETS = 500
 
-GOLDENEYE_BANNER = 'SilentRaider v1.0 by Shadow_Sadist'
+SilentRaider_BANNER = 'SilentRaider v1.0 by Shadow_Sadist'
 
 USER_AGENT_PARTS = {
     'os': {
@@ -151,10 +148,10 @@ USER_AGENT_PARTS = {
 }
 
 ####
-# GoldenEye Class
+# SilentRaider Class
 ####
 
-class GoldenEye(object):
+class SilentRaider(object):
 
     # Counters
     counter = [0, 0]
@@ -624,7 +621,7 @@ def main():
     try:
 
         if len(sys.argv) < 2:
-            error('Please supply at least the URL')
+            error(f'{RED}Please supply at least the URL{RESET}')
 
         url = sys.argv[1]
 
@@ -633,10 +630,10 @@ def main():
             sys.exit()
 
         if url[0:4].lower() != 'http':
-            error("Invalid URL supplied")
+            error(f"{RED}Invalid URL supplied{RESET}")
 
         if url == None:
-            error("No URL supplied")
+            error(f"{RED}No URL supplied{RESET}")
 
         opts, args = getopt.getopt(sys.argv[2:], "ndhw:s:m:u:", ["nosslcheck", "debug", "help", "workers", "sockets", "method", "useragents" ])
 
@@ -667,9 +664,9 @@ def main():
                 if a in (METHOD_GET, METHOD_POST, METHOD_RAND):
                     method = a
                 else:
-                    error("method {0} is invalid".format(a))
+                    error(f"{RED}method {0} is invalid{RESET}".format(a))
             else:
-                error("option '"+o+"' doesn't exists")
+                error(f"{RED}option '"+o+"' doesn't exists{RESET}")
 
 
         if uas_file:
@@ -677,7 +674,7 @@ def main():
                 with open(uas_file) as f:
                     useragents = f.readlines()
             except EnvironmentError:
-                error("cannot read file {0}".format(uas_file))
+                error(f"{RED}cannot read file {0}{RESET}".format(uas_file))
 
         goldeneye = GoldenEye(url)
         goldeneye.useragents = useragents
@@ -696,18 +693,19 @@ def main():
 
 if __name__ == "__main__":
     main()
-    show_banner()  
+    os.system("clear") 
+    print(BANNER) 
 
     while True:
         try:
-            cmd = input("┌──[SilentRaider] \n└─⌈SR⌋ ➔ ")
+            cmd = input(f"{RED}┌──[{RESET}{BLUE}SilentRaider{RESET}{RED}] \n└─⌈{RESET}{YELLOW}SR{RESET}{RED}⌋{RESET}{GREEN} ➔ {RESET}")
             if cmd.lower() == "exit" or cmd.lower() == "quit":
-                print("\nExiting SilentRaider...")
+                print(f"{GREEN}\nExiting SilentRaider...{RESET}")
                 break
             elif cmd.lower() == "help":
                 usage()  
             else:
                 print(f"{RED}Unknown command: {cmd}{RESET}")
         except KeyboardInterrupt:
-            print("\nExiting SilentRaider...")
+            print(f"{RED}\nExiting SilentRaider...{RESET}")
             break
