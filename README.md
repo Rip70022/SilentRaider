@@ -4,7 +4,8 @@ SilentRaider is an HTTP DoS testing tool designed to assess a server's capacity 
 
 # Usage
 ● USAGE:
- UserAgents:
+
+● UserAgents:
  ```bash
  wget -O useragents.txt https://raw.githubusercontent.com/Rip70022/SilentRaider/main/res/lists /useragents
 ```
