@@ -5,7 +5,7 @@ SilentRaider is an HTTP DoS testing tool designed to assess a server's capacity 
 # Usage
  USAGE:
  ```bash 
- ./SilentRaider.py <url> [OPTIONS]
+ python3 SilentRaider.py <url> [OPTIONS]
 ```
  ```bash 
  OPTIONS:
