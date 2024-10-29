@@ -700,7 +700,7 @@ if __name__ == "__main__":
 
     while True:
         try:
-            cmd = input("┌──[SilentRaider] \n└─⌈S⌋ ➔ ")
+            cmd = input("┌──[SilentRaider] \n└─⌈SR⌋ ➔ ")
             if cmd.lower() == "exit" or cmd.lower() == "quit":
                 print("\nExiting SilentRaider...")
                 break
