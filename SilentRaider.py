@@ -589,7 +589,7 @@ def usage():
     print()
     print(f'{BLUE}OPTIONS:')
     print(f'{BLUE}   _____________________________________________________________________________________________________')
-    print(f'{BLUE}  |{RESET}{RED}       Flag:{RESET}{BLUE}      |{RESET}{GREEN}                Description:{RESET}                     {BLUE}| {RESET}          {BOLD}Default:{RESET}            {BLUE}|{RESET}')
+    print(f'{BLUE}  |{RESET}{RED}        Flag:{RESET}{BLUE}      |{RESET}{GREEN}                Description:{RESET}                     {BLUE}| {RESET}          {BOLD}Default:{RESET}            {BLUE}|{RESET}')
     print(f'{BLUE}  |-------------------|-------------------------------------------------|-------------------------------|')
     print(f'{BLUE}  | -u, --useragents  | File with user-agents to use                    | (default: randomly generated) |')
     print(f'{BLUE}  | -w, --workers     | Number of concurrent workers                    | (default: {DEFAULT_WORKERS})  |')
