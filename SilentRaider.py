@@ -497,65 +497,60 @@ class Striker(Process):
 
         return ua_string
 
-    def generateRandomHeaders(self):
+def generateRandomHeaders(self):
+    # Random no-cache entries
+    noCacheDirectives = ['no-cache', 'max-age=0']
+    random.shuffle(noCacheDirectives)
+    nrNoCache = random.randint(1, (len(noCacheDirectives) - 1))
+    noCache = ', '.join(noCacheDirectives[:nrNoCache])
 
-        # Random no-cache entries
-        noCacheDirectives = ['no-cache', 'max-age=0']
-        random.shuffle(noCacheDirectives)
-        nrNoCache = random.randint(1, (len(noCacheDirectives)-1))
-        noCache = ', '.join(noCacheDirectives[:nrNoCache])
-
-        # Random accept encoding
-        acceptEncoding = ['\'\'','*','identity','gzip','deflate']
-        random.shuffle(acceptEncoding)
-        nrEncodings = random.randint(1,int(len(acceptEncoding)/2))
-        roundEncodings = acceptEncoding[:nrEncodings]
+    # Random accept encoding
+    acceptEncoding = ['\'\'', '*', 'identity', 'gzip', 'deflate']
+    random.shuffle(acceptEncoding)
+    nrEncodings = random.randint(1, int(len(acceptEncoding) / 2))
+    roundEncodings = acceptEncoding[:nrEncodings]
 
     http_headers = {
-    'User-Agent': self.getUserAgent(), 
-    'Cache-Control': 'no-cache', 
-    'Accept-Encoding': ', '.join(roundEncodings),  
-    'Connection': 'keep-alive',
-    'Keep-Alive': str(random.randint(1, 1000)),  
-    'Host': self.host,  
-}
+        'User-Agent': self.getUserAgent(),
+        'Cache-Control': 'no-cache',
+        'Accept-Encoding': ', '.join(roundEncodings),
+        'Connection': 'keep-alive',
+        'Keep-Alive': str(random.randint(1, 1000)),
+        'Host': self.host,
+    }
 
-        # Randomly-added headers
-        # These headers are optional and are
-        # randomly sent thus making the
-        # header count random and unfingerprintable
-    if random.randrange(2) == 0:   
+    # Randomly-added headers
+    if random.randrange(2) == 0:
         acceptCharset = ['ISO-8859-1', 'utf-8', 'Windows-1251', 'ISO-8859-2', 'ISO-8859-15']
         random.shuffle(acceptCharset)
         http_headers['Accept-Charset'] = '{0},{1};q={2},*;q={3}'.format(
-            acceptCharset[0], 
-            acceptCharset[1], 
-            round(random.random(), 1), 
+            acceptCharset[0],
+            acceptCharset[1],
+            round(random.random(), 1),
             round(random.random(), 1)
         )
 
-        if random.randrange(2) == 0:
-            # Random Referer
-            url_part = self.buildblock(random.randint(5,10))
+    if random.randrange(2) == 0:
+        # Random Referer
+        url_part = self.buildblock(random.randint(5, 10))
 
-            random_referer = random.choice(self.referers) + url_part
-
-            if random.randrange(2) == 0:
-                random_referer = random_referer + '?' + self.generateQueryString(random.randint(1, 10))
-
-            http_headers['Referer'] = random_referer
+        random_referer = random.choice(self.referers) + url_part
 
         if random.randrange(2) == 0:
-            # Random Content-Trype
-            http_headers['Content-Type'] = random.choice(['multipart/form-data', 'application/x-url-encoded'])
+            random_referer = random_referer + '?' + self.generateQueryString(random.randint(1, 10))
 
-        if random.randrange(2) == 0:
-            # Random Cookie
-            http_headers['Cookie'] = self.generateQueryString(random.randint(1, 5))
+        http_headers['Referer'] = random_referer
 
-def get_http_headers():  
-    
-    return http_headers  
+    if random.randrange(2) == 0:
+        # Random Content-Type
+        http_headers['Content-Type'] = random.choice(['multipart/form-data', 'application/x-url-encoded'])
+
+    if random.randrange(2) == 0:
+        # Random Cookie
+        http_headers['Cookie'] = self.generateQueryString(random.randint(1, 5))
+
+    return http_headers
+  
 
     # Housekeeping
     def stop(self):
