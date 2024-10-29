@@ -3,12 +3,17 @@
 SilentRaider is an HTTP DoS testing tool designed to assess a server's capacity to withstand intensive and persistent HTTP requests. It exploits the HTTP Keep Alive + NoCache attack vector to simulate stress scenarios where the server must handle extended connections and repeated non-cached requests, challenging both the stability and security of HTTP services against denial-of-service threats.
 
 # Usage
- USAGE:
+● USAGE:
+ UserAgents:
+ ```bash
+ wget -O useragents.txt https://raw.githubusercontent.com/Rip70022/SilentRaider/main/res/lists /useragents
+```
+● EXAMPLE:
  ```bash 
  python3 SilentRaider.py <url> [OPTIONS]
 ```
+● OPTIONS:
  ```bash 
- OPTIONS:
     _____________________________________________________________________________________________________
    |       Flag:       |                Description:                     |           Default:            |
    |-------------------|-------------------------------------------------|-------------------------------|
