@@ -550,14 +550,10 @@ def usage():
     print(f'{BLUE}  | -u, --useragents  | File with user-agents to use                    | (default: randomly generated) |')
     print(f'{BLUE}  | -w, --workers     | Number of concurrent workers                    | (default: {DEFAULT_WORKERS})  |')
     print(f'{BLUE}  | -s, --sockets     | Number of concurrent sockets                    | (default: {DEFAULT_SOCKETS})  |')
-    print(f'{BLUE}  | -m, --method | HTTP Method to use \'get\' or \'post\'  or \'random\'| (default: get)
-  |')
-    print(f'{BLUE}  | -d, --debug       | Enable Debug Mode [more verbose output]         | (default: False)
-  |')
-    print(f'{BLUE}  | -n, --nosslcheck  | Do not verify SSL Certificate                   | (default: True)
-  |')
-    print(f'{BLUE}  | -h, --help        | Shows this help                                 |
-  |')
+    print(f'{BLUE}  | -m, --method | HTTP Method to use \'get\' or \'post\'  or \'random\'| (default: get)                |')
+    print(f'{BLUE}  | -d, --debug       | Enable Debug Mode [more verbose output]         | (default: False)              |')
+    print(f'{BLUE}  | -n, --nosslcheck  | Do not verify SSL Certificate                   | (default: True)               |')
+    print(f'{BLUE}  | -h, --help        | Shows this help                                 |                               |')
     print(f'{BLUE}  -------------------------------------------------------------------------------------------------------{RESET}')
 
 
